@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class Server {
-	 protected static   List<Socket> sockets = new Vector<>();
+	 private static   List<Socket> sockets = new Vector<>();
 	 protected static   ArrayList<String> message = new ArrayList<String>();
 
 	public static void main(String[] args) throws IOException {
@@ -17,8 +17,8 @@ public class Server {
 	            try {
 	             //Blockieren, warten auf die Verbindung des Clients
 	            Socket accept = server.accept();
-	            synchronized (sockets){
-	                sockets.add(accept);
+	            synchronized (getSockets()){
+	                getSockets().add(accept);
 	            }
 	            //Mehrere Server-Threads antworten dem Client
 	            Thread thread = new Thread(new ServerThread(accept));
@@ -31,4 +31,12 @@ public class Server {
 	        }
 	        server.close();
 	    }
+
+	public static List<Socket> getSockets() {
+		return sockets;
+	}
+
+	public static void setSockets(List<Socket> sockets) {
+		Server.sockets = sockets;
+	}
 }

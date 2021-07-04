@@ -64,8 +64,8 @@ public class ServerThread extends Server implements Runnable {
 	     */
 	    private void print(String msg) throws IOException {
 	        PrintWriter out = null;
-	        synchronized (sockets){
-	        for (Socket sc : sockets){
+	        synchronized (getSockets()){
+	        for (Socket sc : getSockets()){
 	            out = new PrintWriter(sc.getOutputStream());
 	            out.println(msg);
 	            out.flush();
@@ -92,8 +92,8 @@ public class ServerThread extends Server implements Runnable {
 	    public void closeConnect() throws IOException {
 	        System.out.println("Client@"+socketName+"exit the chatroom");
 	        print("Client@"+socketName+"exit the chatroom");
-	        synchronized (sockets){
-	            sockets.remove(socket);
+	        synchronized (getSockets()){
+	            getSockets().remove(socket);
 	        }
 	        socket.close();
 	    }
